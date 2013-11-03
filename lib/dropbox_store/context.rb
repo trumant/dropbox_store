@@ -20,7 +20,6 @@ module DropboxStore
 			@app_secret = app_secret
 		end
 
-
 	end
 
 end
