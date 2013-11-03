@@ -51,6 +51,11 @@ module DropboxStore
 		# 	Field related setters
 		# ---------------------------------------------------------------------------------------------------
 
+		def self.field_exists?(name)
+			not (@fields.find { |f| f.name == name.to_sym }.nil?)
+		end
+
+
 		def self.fields
 			@fields
 		end
@@ -106,12 +111,12 @@ end
 #
 #
 #
-# class Test < DropboxStore::Table
+class Test < DropboxStore::Table
 
-# 	table_name "test-table"
+	table_name "test-table"
 
-# 	int :id
-# 	string :string
-# 	timestamp :last_modified
+	int :id
+	string :string
+	timestamp :last_modified
 
-# end
+end
