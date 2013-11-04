@@ -1,6 +1,12 @@
 # DropboxStore
 
-TODO: Write a gem description
+This gem does the following:
+
+* provide an interface between your application and the Dropbox Datastore API using the HTTPS calls as they have been described here https://www.dropbox.com/developers/datastore/docs/http. It's currently a subset of all the commands as I'm not actually using all of them myself. Feel free to add to them. 
+
+* contains a number of simple hooks you can use to make your Rails app Dropbox Datastore ready
+
+* provide a simple wrapper over the records that will allow you to query them sort of like you would with ActiveRecord (but much more rudimentary)
 
 ## Installation
 
