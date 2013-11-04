@@ -1,4 +1,4 @@
-# DropboxStore
+# Dropbox DataStore API Gem
 
 This gem does the following:
 
