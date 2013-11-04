@@ -18,7 +18,35 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create an initializer with the following content:
+
+	DROPBOX_KEY = "--"
+	DROPBOX_SECRET = "--"
+	DROPBOX_REDIRECT_URL = "http://localhost:3000/dropbox_token"
+
+You should probably set the redirect url depending on the environment you're running stuff on, I'll leave that up to you though.
+
+Add the following lines to your ApplicationController:
+
+	include DropboxStore::TokenFilter
+
+Add to the controllers that definitely need a dropbox token the following:
+
+	before_filter :requires_token
+
+This adds a function to your application controller that keeps track of whether we have gotten a authorization code from Dropbox yet, if not a redirect will take place once the before_filter has been run.
+
+Create a dropbox_controller.rb and put the following inside:
+
+	class DropboxController < ApplicationController
+
+		include DropboxStore::TokenAction
+
+	end
+
+Then add something like this to your routes.rb and have that be the redirect_url you setup in your Dropbox app settings:
+
+	get '/dropbox_token' => "dropbox#get_token"
 
 ## Contributing
 
