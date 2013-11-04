@@ -8,6 +8,19 @@ This gem does the following:
 
 * provide a simple wrapper over the records that will allow you to query them sort of like you would with ActiveRecord (but much more rudimentary)
 
+## Supported operations:
+
+* list_datastores
+* get_datastore
+* create_local (get_or_create_datastore)
+* create_global (create_datastore)
+* delete_datastore
+* get_deltas
+* put_delta
+* get_snapshot
+
+The only unsupported operation as of yet is `await`
+
 ## Installation
 
 Add this line to your application's Gemfile:
