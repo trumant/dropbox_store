@@ -11,8 +11,6 @@ module DropboxStore
 
 	module TokenFilter
 
-		before_filter :requires_token
-
 		#
 		#  Filter implementation that makes sure that there is a dropbox context
 		#  in the session. If it has not been authorized yet, it will redirect to the
@@ -20,19 +18,23 @@ module DropboxStore
 		#
 		def requires_token
 
+			raise "Setup your initializers to specify DROPBOX_KEY, DROPBOX_SECRET and DROPBOX_REDIRECT_URL" unless DROPBOX_KEY and DROPBOX_SECRET and DROPBOX_REDIRECT_URL
+
 			if not session[:dropbox_context] then
 				context = DropboxStore::Context.new(DROPBOX_KEY, DROPBOX_SECRET)
-				context.redirect_url = DROPBOX_REDIRECT_URL if DROPBOX_REDIRECT_URL
+				context.redirect_url = DROPBOX_REDIRECT_URL
 				session[:dropbox_context] = context
 			end
 
 			ctx = session[:dropbox_context]
 
 			# authorized yet?
-			if not DropboxStore::is_authorized?(ctx) then
-				redirect_to :url => DropboxStore::authorization_url(ctx)
+			if not DropboxStore::Authentication::is_authorized?(ctx) then
+				redirect_to DropboxStore::Authentication::authorization_url(ctx)
 			end
 		end
+
+
 	end
 
 end
