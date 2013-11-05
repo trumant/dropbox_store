@@ -5,6 +5,15 @@ module DropboxStore
 	#
 	module Authentication
 
+		def self.cli_init
+			ctx = DropboxStore::Context.new(DROPBOX_KEY, DROPBOX_SECRET)
+			puts "goto: " + DropboxStore::Authentication::authorization_url(ctx)
+			print "authorization code: " 
+			ctx.auth_code = gets.strip
+			DropboxStore::Authentication::get_token(ctx)
+			ctx
+		end
+
 		def self.is_authorized?(ctx)
 			return !ctx.auth_code.nil? 
 		end

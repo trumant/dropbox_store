@@ -34,8 +34,6 @@ module DropboxStore
 				raise "no active datastore, aborting"
 			end
 
-			deltas = [deltas].flatten
-
 			result = 
 				DropboxStore::message(
 						ctx, 

@@ -1,3 +1,5 @@
+require 'securerandom'
+
 module DropboxStore
 
 	class Record
@@ -8,16 +10,28 @@ module DropboxStore
 		# unique row identifier
 		attr_reader :row_id
 
+		# new record boolean
+		attr_reader :new_record
+
 		#
 		#  Initialize this record
 		#
-		def initialize(data, table, row_id, content)
+		def initialize(data, table, row_id = nil, content = {})
+
 			@dirty = false
 
 			@data = data
 			@table = table
 			@original_content = content.clone
-			@row_id = row_id
+
+			if row_id.nil? then
+				@row_id = SecureRandom.uuid.gsub /\-/, ''
+				@new_record = true
+			else
+				@row_id = row_id
+				@new_record = false
+			end
+
 			@content = content
 		end
 
@@ -27,17 +41,28 @@ module DropboxStore
 
 		def []=(name, value)
 			raise "unknown field" unless @table.field_exists? name
-			@content[name] = value
-			@dirty |= @original_content[name] != @content[name]
+			@content[name.to_s] = value
+			@dirty |= (@original_content[name] != @content[name])
 		end
 
 		def [](name)
 			raise "unknown field" unless @table.field_exists? name
-			@content[name]
+			@content[name.to_s]
 		end
 
-		def revert
+		def revert!
 			@content = @original_content.clone
+			@dirty = false
+		end
+
+		def save!
+			@data.save(self)
+			@original_content = @content.clone
+			@dirty = false
+		end
+
+		def remove!
+			@data.remove(self)
 		end
 
 		def dirty?
