@@ -32,6 +32,7 @@ module DropboxStore
 		def initialize
 			DropboxStore::registered_tables << self
 			@fields = []
+			@filters = []
 			@table = nil
 		end
 
@@ -93,7 +94,7 @@ module DropboxStore
 		end
 
 		# ---------------------------------------------------------------------------------------------------
-		# 	
+		# 	Utility methods
 		# ---------------------------------------------------------------------------------------------------
 
 		#

@@ -35,7 +35,7 @@ module DropboxStore
 		def refresh
 			# get handle if not yet available
 			if not @ctx.active_store or @ctx.active_store.dsid == @datastore_id then 
-				DropboxStore::Datastores.get(@datastore_id)
+				DropboxStore::Datastores.get(@ctx, @datastore_id)
 			end
 
 			# retrieve snapshot
@@ -60,7 +60,7 @@ module DropboxStore
 						row["rowid"],
 						row["ata"]
 					)
-				}
+			end
 		end
 
 		def table_for(row)
@@ -79,8 +79,8 @@ end
 
 # example usages
 
-snapshot = DropboxStore::Data.new(ctx) do |s|
-	s.table String
-end	
+# snapshot = DropboxStore::Data.new(ctx) do |s|
+# 	s.table String
+# end	
 
-results = snapshot.query { |r| r["name"] == "marnix" }
+# results = snapshot.query { |r| r["name"] == "marnix" }
