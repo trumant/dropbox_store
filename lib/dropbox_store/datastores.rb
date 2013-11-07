@@ -8,7 +8,8 @@ module DropboxStore
 		def self.list(ctx)
 			result = DropboxStore::message(ctx, 'datastores/list_datastores') 
 			raise result["error"] if result["error"]
-			{
+			
+			return {
 			  names: result["datastores"].collect { |store| store["dsid"] }, 
 			  stores: result["datastores"]
 			}

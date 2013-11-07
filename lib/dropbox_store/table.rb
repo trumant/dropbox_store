@@ -84,6 +84,7 @@ module DropboxStore
 		def self.timestamp(name)
 			field(name, "timestamp")
 		end
+
 		#
 		#   Add a field with name `name` of type `type`
 		#
@@ -91,6 +92,22 @@ module DropboxStore
 			@fields ||= []
 			@fields << Field.new(name, type)
 			sanity_check
+		end
+
+		# ---------------------------------------------------------------------------------------------------
+		#    Persist hooks one can override in table implementations
+		# ---------------------------------------------------------------------------------------------------
+
+		def before_save(record)
+		end
+
+		def before_update(record)
+		end
+
+		def before_insert(record)
+		end
+
+		def before_remove(record)
 		end
 
 		# ---------------------------------------------------------------------------------------------------

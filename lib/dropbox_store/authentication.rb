@@ -30,14 +30,18 @@ module DropboxStore
 		end
 
 		def self.get_token(ctx)
-			result = DropboxStore::message(ctx, 'oauth2/token', {
+			msg_params = {
 				grant_type: "authorization_code",
 				code: ctx.auth_code
-			})	
+			}
+			msg_params[:redirect_uri] = ctx.redirect_url if ctx.redirect_url
+
+			result = DropboxStore::message(ctx, 'oauth2/token', msg_params)	
 
 			if result.has_key? "access_token" then
 				ctx.token = result["access_token"]
 			else
+				puts "RESULT: #{result}"
 				raise "unable to retrieve the access token, please try again"
 			end
 		end

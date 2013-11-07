@@ -12,6 +12,8 @@ module DropboxStore
 
 			ctx = session[:dropbox_context]
 			ctx.auth_code = params[:code]
+			ctx.token = nil
+			DropboxStore::Authentication::get_token(ctx)
 			
 			session[:dropbox_context] = ctx
 			redirect_to "/"

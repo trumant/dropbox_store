@@ -26,7 +26,8 @@ module DropboxStore
 
 		url = URI.parse(API_URL + name)
 
-		puts url.inspect
+		puts "URL: #{url.inspect}"
+		puts "MSG PARAMS: #{params.inspect}"
 
 		# setup to do SSL request
 		http = Net::HTTP.new(url.host, url.port)
