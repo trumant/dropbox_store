@@ -38,8 +38,8 @@ module DropboxStore
 					end
 
 					# has a session?
-					if not @local_session[:dropbox_store_session] then
-						ctx = @local_session[:dropbox_context]
+					if not  DROPBOX_CONTEXTS[@local_session[:dropbox_context] + "_DATA"] then
+						ctx = DROPBOX_CONTEXTS[@local_session[:dropbox_context]]
 
 						# generate a code block that is passed to the datastore constructor
 						load_tables_proc = Proc.new do |data|
@@ -50,7 +50,7 @@ module DropboxStore
 
 						end
 
-						@local_session[:dropbox_store_session] = DropboxStore::Data.new(
+						DROPBOX_CONTEXTS[@local_session[:dropbox_context] + "_DATA"] = DropboxStore::Data.new(
 								ctx, 
 								@@store_definition_descriptor[:datastore_id],
 								&load_tables_proc
@@ -58,7 +58,7 @@ module DropboxStore
 
 					end
 
-					return @local_session[:dropbox_store_session]
+					return DROPBOX_CONTEXTS[@local_session[:dropbox_context] + "_DATA"] 
 				end
 
 

@@ -61,6 +61,7 @@ module DropboxStore
 			result = DropboxStore::message(ctx, 'datastores/get_snapshot', { handle: ctx.active_store[:handle] })
 
 			raise result["notfound"] if result["notfound"]
+			puts result.inspect
 			result
 		end
 

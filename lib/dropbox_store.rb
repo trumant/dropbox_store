@@ -13,6 +13,7 @@ require "dropbox_store/table"
 require "dropbox_store/token_action"
 require "dropbox_store/token_filter"
 
+DROPBOX_CONTEXTS = {}
 
 module DropboxStore
 

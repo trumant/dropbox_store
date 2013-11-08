@@ -91,6 +91,8 @@ module DropboxStore
 		def save(record)
 			return unless record.dirty? 
 
+			refresh
+
 			if record.new_record then
 				change = ["I", record.table.table_name, record.row_id, record.values]
 
@@ -107,8 +109,11 @@ module DropboxStore
 				change = ["U", record.table.table_name, record.row_id, field_op_dict]
 
 				# merge changes back into @snapshot
-				row = @snapshot["rows"].find { |r| r["tid"] == record.table.table_name and r["row_id"] == record.row_id }
-				row["data"] = record.values
+				@snapshot["rows"].each { |r| 
+					if record.table.table_name == r["tid"] and r["row_id"] == record.row_id  then
+						row["data"] = record.values
+					end
+				}
 			end
 
 			DropboxStore::Store::put_delta(@ctx, [change])
