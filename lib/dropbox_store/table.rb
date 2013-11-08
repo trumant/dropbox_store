@@ -29,12 +29,30 @@ module DropboxStore
 	#
 	class Table
 
+
+		#
+		#  Constructor
+		#
 		def initialize
 			DropboxStore::registered_tables << self
 			@fields = []
 			@filters = []
 			@table = nil
+			@behaviors = nil
 		end
+
+		# ---------------------------------------------------------------------------------------------------
+		# 	Behaviors
+		# ---------------------------------------------------------------------------------------------------
+		
+		def self.behaviors(behaviors = nil)
+			if not behaviors.nil? then
+				@behaviors = behaviors
+			else
+				@behaviors
+			end
+		end
+
 
 		# ---------------------------------------------------------------------------------------------------
 		# 	Table name
@@ -123,18 +141,5 @@ module DropboxStore
 		end
 
 	end
-
-end
-
-#
-#
-#
-class Test < DropboxStore::Table
-
-	table_name "test-table"
-
-	int :id
-	string :string
-	timestamp :last_modified
 
 end

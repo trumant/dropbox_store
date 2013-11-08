@@ -47,14 +47,20 @@ module DropboxStore
 			query { true }
 		end
 
+		def find_by_id(row_id)
+			list = query { |record| record.row_id == row_id }
+			list.empty? ? nil : list.first
+		end
+
 		#
 		#   Find record instances for specific query
 		#
 		def query(&code)
+			data_instance = self
 			result_records = []
 			@snapshot["rows"].each do |row|
 				record = DropboxStore::Record.new(
-						row, 
+						data_instance,
 						table_for(row), 
 						row["rowid"],
 						row["data"]
@@ -96,7 +102,9 @@ module DropboxStore
 				}
 
 			else
-				change = ["U", record.table.table_name, record.row_id, record.values]
+				field_op_dict = {}
+				record.values.each { |key, val| field_op_dict[key] = ["P", val] }
+				change = ["U", record.table.table_name, record.row_id, field_op_dict]
 
 				# merge changes back into @snapshot
 				row = @snapshot["rows"].find { |r| r["tid"] == record.table.table_name and r["row_id"] == record.row_id }
@@ -109,11 +117,3 @@ module DropboxStore
 	end
 
 end
-
-# example usages
-
-# snapshot = DropboxStore::Data.new(ctx) do |s|
-# 	s.table String
-# end	
-
-# results = snapshot.query { |r| r["name"] == "marnix" }

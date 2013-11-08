@@ -33,6 +33,11 @@ module DropboxStore
 			end
 
 			@content = content
+
+			# extend this instance with helper functions defined for that table
+			if not @table.behaviors.nil? then
+			 	self.send :extend, table.behaviors
+			end
 		end
 
 		def values

@@ -1,6 +1,18 @@
-require "dropbox_store/version"
 require 'json'
 require "net/https"
+
+require "dropbox_store/version"
+require "dropbox_store/authentication"
+require "dropbox_store/context"
+require "dropbox_store/data"
+require "dropbox_store/datastores"
+require "dropbox_store/record"
+require "dropbox_store/session_store"
+require "dropbox_store/store"
+require "dropbox_store/table"
+require "dropbox_store/token_action"
+require "dropbox_store/token_filter"
+
 
 module DropboxStore
 
@@ -26,9 +38,6 @@ module DropboxStore
 
 		url = URI.parse(API_URL + name)
 
-		puts "URL: #{url.inspect}"
-		puts "MSG PARAMS: #{params.inspect}"
-
 		# setup to do SSL request
 		http = Net::HTTP.new(url.host, url.port)
 		http.use_ssl = true
@@ -47,8 +56,6 @@ module DropboxStore
 
 		begin
 			response = http.request(request)
-
-			puts response.inspect
 
 			# json response?
 			if response.body[0] == '{' then 
